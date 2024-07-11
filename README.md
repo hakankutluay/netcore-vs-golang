@@ -76,6 +76,7 @@ Running 2m test @ http://localhost:5001
   2684929 requests in 1.67m, 491.01MB read
   Socket errors: connect 0, read 150, write 0, timeout 0
 Requests/sec:  26821.91
+Transfer/sec:      4.91MB
 ```
 
 Resources used
