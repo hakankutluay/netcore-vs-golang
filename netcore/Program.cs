@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+using System.Text.Json;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 class Program
 {
@@ -60,19 +54,12 @@ class Startup
     {
         app.Run(async ctx =>
         {
-            using (var rsp = await _http.GetAsync("/data"))
-            {
-                var str = await rsp.Content.ReadAsStringAsync();
-
-                // deserialize
-                var obj = JsonConvert.DeserializeObject<Response>(str);
-
-                // serialize
-                var json = JsonConvert.SerializeObject(obj);
-
-                ctx.Response.ContentType = "application/json";
-                await ctx.Response.WriteAsync(json);
-            }
+            await using var rsp = await _http.GetStreamAsync("/data");
+            // deserialize
+            var obj = await JsonSerializer.DeserializeAsync<Response>(rsp);
+            // serialize
+            ctx.Response.ContentType = "application/json";
+            await JsonSerializer.SerializeAsync(ctx.Response.Body, obj);
         });
     }
 

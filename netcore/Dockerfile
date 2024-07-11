@@ -1,10 +1,10 @@
-FROM microsoft/dotnet:2.2-sdk
+FROM  mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build-env
 
 WORKDIR /dotnetapp
 
 # copy project.json and restore as distinct layers
 COPY netcore.csproj .
-RUN dotnet restore
+RUN dotnet restore 
 
 # copy and build everything else
 COPY . .

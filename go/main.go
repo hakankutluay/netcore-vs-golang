@@ -32,26 +32,18 @@ func main() {
 
 		defer rsp.Body.Close()
 
-		// deserialize
-		obj := Response{}
-		err = json.NewDecoder(rsp.Body).Decode(&obj)
-		if err != nil {
-			serverError(w, err.Error())
-			return
-		}
-
-		// serialize
-		jsonStr, err := json.Marshal(&obj)
-		if err != nil {
+		var obj Response
+		if err := json.NewDecoder(rsp.Body).Decode(&obj); err != nil {
 			serverError(w, err.Error())
 			return
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		if _, err := w.Write(jsonStr); err != nil {
+		if err := json.NewEncoder(w).Encode(&obj); err != nil {
 			serverError(w, err.Error())
 			return
 		}
+
 	})
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

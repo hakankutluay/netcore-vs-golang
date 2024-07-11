@@ -1,7 +1,8 @@
-FROM golang:1.11.2
+FROM golang:1.22
 
 WORKDIR /go/src/app
 COPY . .
-RUN go install ./...
+RUN go mod download
+RUN  CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags '-s -w' -o /api .
 
-CMD ["/go/bin/app"]
+CMD ["/api"]
