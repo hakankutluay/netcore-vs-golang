@@ -1,45 +1,52 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"go-test/models"
 	"html"
 	"log"
+	"net"
 	"net/http"
 	"os"
-)
+	"time"
 
-type Response struct {
-	Id   string
-	Name string
-	Time int64
-}
+	"github.com/mailru/easyjson"
+	"github.com/valyala/fasthttp"
+)
 
 func main() {
 	url := "http://" + os.Getenv("HOST") + ":5002/data"
-	tr := &http.Transport{
-		MaxIdleConns:        100_000,
-		MaxIdleConnsPerHost: 100_000,
+	t := http.DefaultTransport.(*http.Transport).Clone()
+	t.MaxIdleConns = 100_000
+	t.MaxConnsPerHost = 100_000
+	t.MaxIdleConnsPerHost = 100_000
+
+	client := &fasthttp.Client{
+		Dial: func(addr string) (net.Conn, error) {
+			return fasthttp.DialTimeout(addr, time.Second*10)
+		},
+		MaxConnsPerHost:     100_000,
+		MaxIdleConnDuration: time.Second * 10,
 	}
-	client := &http.Client{Transport: tr}
 
 	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
-		rsp, err := client.Get(url)
+		var dst []byte
+		_, bdy, err := client.Get(dst, url)
 		if err != nil {
 			serverError(w, err.Error())
 			return
 		}
 
-		defer rsp.Body.Close()
-
-		var obj Response
-		if err := json.NewDecoder(rsp.Body).Decode(&obj); err != nil {
+		var obj models.Response
+		if err := easyjson.Unmarshal(bdy, &obj); err != nil {
 			serverError(w, err.Error())
 			return
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		if err := json.NewEncoder(w).Encode(&obj); err != nil {
+
+		// marshall with easyjson the object to the response
+		if _, _, err := easyjson.MarshalToHTTPResponseWriter(&obj, w); err != nil {
 			serverError(w, err.Error())
 			return
 		}
