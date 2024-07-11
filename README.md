@@ -66,17 +66,17 @@ TIME_WAIT file descriptors: ~3
 Running 2m test @ http://localhost:5001
   8 threads and 256 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    10.29ms    8.54ms 248.88ms   91.18%
-    Req/Sec     3.38k   522.76     5.13k    83.79%
+    Latency     7.86ms    8.93ms 298.26ms   96.21%
+    Req/Sec     4.46k   585.31     8.35k    85.50%
   Latency Distribution
-     50%    8.49ms
-     75%   12.56ms
-     90%   17.41ms
-     99%   39.32ms
-  2684929 requests in 1.67m, 491.01MB read
-  Socket errors: connect 0, read 150, write 0, timeout 0
-Requests/sec:  26821.91
-Transfer/sec:      4.91MB
+     50%    6.46ms
+     75%    8.97ms
+     90%   12.67ms
+     99%   25.44ms
+  3542021 requests in 1.67m, 644.37MB read
+  Socket errors: connect 0, read 73, write 3, timeout 0
+Requests/sec:  35395.09
+Transfer/sec:      6.44MB
 ```
 
 Resources used
