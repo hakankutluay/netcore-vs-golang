@@ -40,17 +40,17 @@ Count TIME_WAIT state
 Running 2m test @ http://localhost:5000
   8 threads and 256 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    39.46ms   61.00ms   1.04s    98.66%
-    Req/Sec     0.95k   194.35     2.85k    72.86%
+    Latency     6.06ms    4.86ms 180.39ms   96.50%
+    Req/Sec     5.58k   843.84     7.24k    77.55%
   Latency Distribution
-     50%   33.59ms
-     75%   39.36ms
-     90%   45.37ms
-     99%  254.22ms
-  745477 requests in 1.67m, 161.21MB read
-  Socket errors: connect 0, read 304, write 0, timeout 0
-Requests/sec:   7447.74
-Transfer/sec:      1.61MB
+     50%    5.37ms
+     75%    6.59ms
+     90%    8.31ms
+     99%   18.00ms
+  4442164 requests in 1.67m, 0.94GB read
+  Socket errors: connect 0, read 125, write 0, timeout 0
+Requests/sec:  44359.35
+Transfer/sec:      9.59MB
 ```
 
 Resources used
@@ -66,17 +66,16 @@ TIME_WAIT file descriptors: ~3
 Running 2m test @ http://localhost:5001
   8 threads and 256 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
-    Latency    61.20ms   79.19ms   1.10s    98.25%
-    Req/Sec   605.58    134.67     1.36k    81.43%
+    Latency    10.29ms    8.54ms 248.88ms   91.18%
+    Req/Sec     3.38k   522.76     5.13k    83.79%
   Latency Distribution
-     50%   53.42ms
-     75%   67.89ms
-     90%   82.50ms
-     99%  500.11ms
-  475287 requests in 1.67m, 86.47MB read
-  Socket errors: connect 0, read 363, write 2, timeout 0
-Requests/sec:   4751.79
-Transfer/sec:      0.86MB
+     50%    8.49ms
+     75%   12.56ms
+     90%   17.41ms
+     99%   39.32ms
+  2684929 requests in 1.67m, 491.01MB read
+  Socket errors: connect 0, read 150, write 0, timeout 0
+Requests/sec:  26821.91
 ```
 
 Resources used

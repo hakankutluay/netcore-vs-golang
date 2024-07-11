@@ -18,8 +18,8 @@ type Response struct {
 func main() {
 	url := "http://" + os.Getenv("HOST") + ":5002/data"
 	tr := &http.Transport{
-		MaxIdleConns:        4000,
-		MaxIdleConnsPerHost: 4000,
+		MaxIdleConns:        100_000,
+		MaxIdleConnsPerHost: 100_000,
 	}
 	client := &http.Client{Transport: tr}
 
