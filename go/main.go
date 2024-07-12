@@ -16,10 +16,6 @@ import (
 
 func main() {
 	url := "http://" + os.Getenv("HOST") + ":5002/data"
-	t := http.DefaultTransport.(*http.Transport).Clone()
-	t.MaxIdleConns = 100_000
-	t.MaxConnsPerHost = 100_000
-	t.MaxIdleConnsPerHost = 100_000
 
 	client := &fasthttp.Client{
 		Dial: func(addr string) (net.Conn, error) {
